@@ -4,28 +4,30 @@
 /* 0. CSS Variables & Basic Reset */
 /* ================================================================= */
 :root {
-    /* Colors */
-    --primary-color: #4CAF50; /* Vibrant green for buttons and highlights */
-    --primary-hover-color: #45a049; /* Slightly darker green for hover */
-    --secondary-color: #f0f0f0; /* Light background for secondary sections and project cards */
-    --dark-bg-color: #e6e6d1; /* A light beige tone for section backgrounds (hero, page-hero) */
-    --text-color: #333; /* Default color for text */
-    --light-text-color: #f8f8f8; /* Light color for text on dark backgrounds */
-    --heading-color: #222; /* Darker color for headings */
-    --whatsapp-green: #25D366; /* Exact WhatsApp green */
-    --whatsapp-dark-green: #1DA851; /* Darker green for WhatsApp hover */
+    /* Colors (Terrosas com base na paleta fornecida) */
+    --primary-color: #8C4D2E; /* Marrom avermelhado vibrante para botões e destaques */
+    --primary-hover-color: #A0522D; /* Um tom de marrom mais claro para hover */
+    --secondary-color: #F5F5DC; /* Bege claro para fundos secundários e cartões */
+    --dark-bg-color: #A2A183; /* Verde oliva acinzentado para fundos de seção (hero, page-hero) */
+    --text-color: #4A3B31; /* Marrom escuro para texto padrão */
+    --light-text-color: #F8F8F8; /* Branco/creme para texto em fundos escuros */
+    --heading-color: #686230; /* Verde musgo escuro para títulos */
+    --whatsapp-green: #25D366; /* Mantendo o verde original do WhatsApp para reconhecimento */
+    --whatsapp-dark-green: #1DA851; /* Mantendo o verde escuro do WhatsApp */
 
     /* Spacing & Dimensions */
     --padding-section: 60px 40px;
     --max-width-content: 1200px;
     --header-height: 80px; /* Approximate, for min-height calculation */
+    --padding-section-horizontal: 40px; /* Adicionado para responsividade */
+
 
     /* Visual Effects */
     --border-radius: 8px;
     --box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
     --box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
     --box-shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.2);
-    --hover-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --hover-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Levemente mais intenso */
 
     /* Transitions */
     --transition-speed: 0.3s;
@@ -34,18 +36,18 @@
 
 /* Basic Reset */
 *, *::before, *::after {
-    box-sizing: border-box; /* Include padding and border in width/height calculation for all elements */
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
-    position: relative; /* Necessary to position the slideshow relative to the body */
-    min-height: 100vh; /* Ensures the body occupies at least 100% of the viewport height */
-    background-color: var(--secondary-color);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(to right bottom, var(--secondary-color), #A2A183); /* Degradê no body */
     color: var(--text-color);
-    line-height: 1.6;
+    line-height: 1.9;
 }
 
 /* Global Link Styles */
@@ -64,17 +66,17 @@ a:hover {
 /* ================================================================= */
 .whatsapp-float {
     position: fixed;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     bottom: 40px;
     right: 40px;
     background-color: var(--whatsapp-green);
     color: #FFF;
     border-radius: 50%;
     text-align: center;
-    font-size: 30px;
+    font-size: 35px;
     box-shadow: var(--box-shadow-medium);
-    z-index: 1000; /* Ensures the button is always on top */
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,29 +91,44 @@ a:hover {
 
 /* If using an SVG image for the icon */
 .whatsapp-float .whatsapp-icon {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     /* filter: invert(100%); /* Optional: for black icons on green background */ */
 }
 /* If using Font Awesome for the icon (recommended) */
 .whatsapp-float .fab.fa-whatsapp {
     color: white;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 /* ================================================================= */
 /* 2. Header (Navigation Bar) */
 /* ================================================================= */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background-color: #fff;
+    /* O header vai ocupar 100% da largura, sem max-width ou margin: auto */
+    width: 100%;
+    padding: 20px 0; /* Padding horizontal zero, será controlado pelo container interno */
+    background: linear-gradient(to right, #83492d, #A2A183); /* Degradê terroso para o header */
     box-shadow: var(--box-shadow-light);
-    position: sticky; /* Fixes the header at the top when scrolling */
+    position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+/* Novo container para o conteúdo do header */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Logo à esquerda, navegação à direita */
+    align-items: center;
+    max-width: var(--max-width-content); /* Limita a largura do conteúdo */
+    margin: 0 auto; /* Centraliza o conteúdo dentro do header */
+    padding: 0 50px; /* Padding horizontal para o conteúdo, como era antes */
+    flex-wrap: wrap; /* Permite que os itens quebrem linha em telas menores */
+}
+
+
+.logo {
+    /* Não precisa de margin-right: auto; aqui, o justify-content: space-between já faz o trabalho */
 }
 
 .logo img {
@@ -123,15 +140,18 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* Não precisa de margin-left: auto; aqui */
 }
 
 nav ul li {
-    margin-left: 30px;
+    margin-left: 80px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--light-text-color); /* Texto claro no header escuro */
     font-weight: bold;
     transition: color var(--transition-speed) var(--transition-ease),
                 border-bottom var(--transition-speed) var(--transition-ease),
@@ -139,26 +159,44 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: var(--primary-color);
+    color: var(--secondary-color); /* Um bege claro no hover */
 }
 
 nav ul li a.active {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
+    color: var(--light-text-color); /* Ativo ainda claro */
+    border-bottom: 2px solid var(--secondary-color); /* Bordar com bege claro */
     padding-bottom: 3px;
 }
+
+/* Adicionando bordas nos ícones na barra de navegação (se houver) ou em outras áreas */
+.nav-icon { /* Adicione esta classe aos elementos <i> ou <img> dos seus ícones no HTML */
+    padding: 8px; /* Espaçamento interno para a borda */
+    border: 2px solid var(--light-text-color); /* Borda clara */
+    border-radius: var(--border-radius); /* Bordas arredondadas */
+    transition: all var(--transition-speed) var(--transition-ease);
+    display: inline-flex; /* Garante que o padding funcione bem em ícones */
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon:hover {
+    border-color: var(--secondary-color); /* Altera a cor da borda no hover */
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.1); /* Um leve fundo no hover */
+}
+
 
 /* ================================================================= */
 /* 3. Hero Section (Homepage) */
 /* ================================================================= */
 .background-slideshow {
-    position: fixed; /* Changed to fixed to cover the entire viewport */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: -1; /* Puts the slideshow in the background */
+    z-index: -1;
 }
 
 .background-slideshow img {
@@ -167,27 +205,28 @@ nav ul li a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the space without distortion */
-    opacity: 0; /* By default, all images are hidden */
-    transition: opacity 1.5s var(--transition-ease); /* Smooth transition */
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s var(--transition-ease);
 }
 
 .background-slideshow img.active {
-    opacity: 1; /* The image with the 'active' class is visible */
+    opacity: 1;
 }
 
-.content-wrapper { /* Container for content over the slideshow */
+.content-wrapper {
     position: relative;
     z-index: 5;
-    padding: 80px 40px;
+    /* Ajustado o padding-left aqui para dar espaço à barra lateral flutuante */
+    padding: 80px 40px 80px 200px; /* Top, Right, Bottom, Left. Ajuste o 200px se necessário */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - var(--header-height) - 60px); /* Dynamic adjustment */
-    /* background-color: rgba(255, 255, 255, 0.7); /* Optional: for readability on complex images */ */
+    min-height: calc(100vh - var(--header-height) - 60px);
+    background-color: rgba(255, 255, 255, 0.2); /* Overlay sutil para legibilidade */
 }
 
-.hero-section { /* The actual content inside the content-wrapper */
+.hero-section {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -199,19 +238,19 @@ nav ul li a.active {
 .text-content {
     flex: 1;
     max-width: 600px;
-    color: var(--text-color); /* Can be overridden to be more visible on slideshow */
+    color: var(--text-color); /* Cor de texto padrão */
 }
 
 .text-content h1 {
     font-size: 4em;
     margin-bottom: 10px;
-    color: var(--primary-color); /* Primary color for highlight */
+    color: var(--primary-color);
 }
 
 .text-content h2 {
     font-size: 2em;
     margin-bottom: 20px;
-    color: var(--primary-color);
+    color: var(--heading-color); /* Títulos em verde musgo */
 }
 
 .text-content p {
@@ -226,8 +265,14 @@ nav ul li a.active {
     flex-wrap: wrap;
 }
 
-.button {
-    display: inline-block;
+/* ================================================================= */
+/* 8. Global Button Styles - NOVO PADRÃO DE BOTÕES */
+/* ================================================================= */
+
+.btn {
+    display: inline-flex; /* Use inline-flex para alinhar ícones e texto */
+    align-items: center;
+    justify-content: center;
     padding: 12px 25px;
     border: none;
     border-radius: var(--border-radius);
@@ -240,57 +285,72 @@ nav ul li a.active {
                 border-color var(--transition-speed) var(--transition-ease);
     font-weight: bold;
     text-align: center;
-    white-space: nowrap;
+    white-space: nowrap; /* Evita quebra de linha */
+    gap: 8px; /* Espaçamento entre o ícone e o texto, se houver */
 }
 
-.button.primary {
-    background-color: var(--primary-color);
+/* Modificadores de estilo */
+.btn-primary {
+    background: linear-gradient(to right, var(--primary-color), var(--primary-hover-color));
     color: #fff;
 }
 
-.button.primary:hover {
-    background-color: var(--primary-hover-color);
+.btn-primary:hover {
+    background: linear-gradient(to left, var(--primary-color), var(--primary-hover-color));
     transform: translateY(-2px);
     box-shadow: var(--box-shadow-medium);
 }
 
-.button.secondary {
+.btn-secondary {
     background-color: transparent;
     color: var(--primary-color);
     border: 2px solid var(--primary-color);
 }
 
-.button.secondary:hover {
-    background-color: var(--primary-color);
+.btn-secondary:hover {
+    background: linear-gradient(to right, var(--primary-color), var(--primary-hover-color));
     color: #fff;
     transform: translateY(-2px);
     box-shadow: var(--box-shadow-medium);
+    border-color: var(--primary-hover-color); /* Altera a borda no hover */
 }
 
-.image-content { /* Profile image container */
+/* Modificadores de tamanho (Ex: .btn-small) */
+.btn-small {
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+/* ================================================================= */
+/* ATUALIZAÇÕES NAS SEÇÕES EXISTENTES PARA USAR OS NOVOS BOTÕES */
+/* ================================================================= */
+
+.image-content {
     flex-shrink: 0;
     width: 400px;
     height: 400px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: var(--box-shadow-heavy);
-    background-color: #ccc; /* Fallback */
+    background: linear-gradient(to top right, #A2A183, #686230); /* Degradê terroso na imagem de perfil */
     transition: box-shadow var(--transition-speed) var(--transition-ease),
                 transform var(--transition-speed) var(--transition-ease),
                 border-color var(--transition-speed) var(--transition-ease);
 }
 
-.image-content .profile-image { /* The image inside the container */
+.image-content .profile-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Pode aplicar um filtro para harmonizar a imagem com a paleta */
+    /* filter: grayscale(20%) sepia(10%) hue-rotate(10deg); */
 }
 
-.image-content.highlighted { /* Activated via JS on hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* More intense shadow */
+.image-content.highlighted {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     transform: scale(1.02);
-    border: 5px solid var(--primary-color); /* Highlighted border */
+    border: 5px solid var(--primary-color);
 }
 
 /* ================================================================= */
@@ -298,18 +358,18 @@ nav ul li a.active {
 /* ================================================================= */
 
 .page-hero {
-    background-color: var(--dark-bg-color); /* Similar background to homepage */
+    background: linear-gradient(to right, var(--dark-bg-color), #8C4D2E); /* Degradê na hero section das páginas internas */
     padding: var(--padding-section);
     text-align: center;
-    color: var(--heading-color);
+    color: var(--light-text-color); /* Texto claro sobre o fundo escuro */
     margin-bottom: 40px;
-    animation: fadeIn 1s var(--transition-ease) forwards; /* Initial animation */
+    animation: fadeIn 1s var(--transition-ease) forwards;
 }
 
 .page-hero h1 {
     font-size: 2.8em;
     margin-bottom: 15px;
-    color: var(--primary-color); /* Highlight for page title */
+    color: var(--light-text-color); /* Título em branco */
 }
 
 .page-hero p {
@@ -329,19 +389,19 @@ nav ul li a.active {
 }
 
 .project-card {
-    background-color: #fff;
+    background-color: var(--secondary-color); /* Fundo bege claro para o cartão */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-light);
     padding: 25px;
     transition: transform var(--transition-speed) var(--transition-ease),
                 box-shadow var(--transition-speed) var(--transition-ease);
     position: relative;
-    overflow: hidden; /* Ensures the shadow doesn't go outside */
-    opacity: 0; /* For scroll-reveal */
-    transform: translateY(20px); /* For scroll-reveal */
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-.project-card.visible { /* Activated via JS for scroll-reveal */
+.project-card.visible {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
@@ -353,7 +413,7 @@ nav ul li a.active {
 }
 
 .project-card h3 {
-    color: var(--primary-color);
+    color: var(--primary-color); /* Título do projeto em marrom avermelhado */
     margin-bottom: 15px;
     font-size: 1.8em;
 }
@@ -376,8 +436,8 @@ nav ul li a.active {
     gap: 5px;
 }
 
-.project-card ul li:before { /* Custom list icon */
-    content: "•"; /* Or use Font Awesome: <i class="fas fa-check"></i> */
+.project-card ul li:before {
+    content: "•";
     color: var(--primary-color);
     font-weight: bold;
     display: inline-block;
@@ -385,9 +445,8 @@ nav ul li a.active {
     margin-left: -1em;
 }
 
-.project-card .button.small {
-    padding: 10px 20px;
-    font-size: 0.9em;
+/* Botões dentro do project-card agora usam as novas classes */
+.project-card .btn {
     margin-top: 15px;
 }
 
@@ -405,9 +464,9 @@ nav ul li a.active {
 .partner-logo {
     text-align: center;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--dark-bg-color); /* Borda em verde oliva acinzentado */
     border-radius: var(--border-radius);
-    background-color: #fff;
+    background-color: var(--secondary-color); /* Fundo bege claro */
     width: 180px;
     flex-shrink: 0;
     box-shadow: var(--box-shadow-light);
@@ -415,11 +474,11 @@ nav ul li a.active {
                 transform var(--transition-speed) var(--transition-ease);
     position: relative;
     overflow: hidden;
-    opacity: 0; /* For scroll-reveal */
-    transform: translateY(20px); /* For scroll-reveal */
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-.partner-logo.visible { /* Activated via JS for scroll-reveal */
+.partner-logo.visible {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
@@ -429,27 +488,27 @@ nav ul li a.active {
     max-width: 120px;
     height: auto;
     margin-bottom: 10px;
-    filter: grayscale(100%); /* Grayscale logos by default */
+    filter: grayscale(100%);
     opacity: 0.7;
     transition: filter var(--transition-speed) var(--transition-ease),
                 opacity var(--transition-speed) var(--transition-ease);
 }
 
 .partner-logo:hover img {
-    filter: grayscale(0%); /* Colors the logo on hover */
+    filter: grayscale(0%) sepia(20%) hue-rotate(15deg); /* Cores mais saturadas e harmonizadas no hover */
     opacity: 1;
 }
 
 .partner-logo:hover {
     box-shadow: var(--hover-box-shadow);
     transform: scale(1.03);
-    z-index: 1; /* Ensures it's on top if there's overlap */
+    z-index: 1;
 }
 
 /* Testimonials */
 .testimonials {
     padding: 50px;
-    background-color: var(--secondary-color); /* Light background */
+    background: linear-gradient(to top left, var(--secondary-color), #E0D8B0); /* Degradê nos depoimentos */
     text-align: center;
     margin-top: 40px;
 }
@@ -472,11 +531,11 @@ nav ul li a.active {
     line-height: 1.6;
     transition: box-shadow var(--transition-speed) var(--transition-ease),
                 transform var(--transition-speed) var(--transition-ease);
-    opacity: 0; /* For scroll-reveal */
-    transform: translateY(20px); /* For scroll-reveal */
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-.testimonial-card.visible { /* Activated via JS for scroll-reveal */
+.testimonial-card.visible {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
@@ -514,16 +573,16 @@ nav ul li a.active {
 .contact-form-container {
     flex: 1;
     min-width: 300px;
-    background-color: #fff;
+    background-color: var(--secondary-color); /* Fundo bege claro */
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-light);
-    opacity: 0; /* For scroll-reveal */
-    transform: translateY(20px); /* For scroll-reveal */
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .contact-info.visible,
-.contact-form-container.visible { /* Activated via JS for scroll-reveal */
+.contact-form-container.visible {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
@@ -569,29 +628,33 @@ nav ul li a.active {
 .contact-form textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--dark-bg-color); /* Borda em verde oliva acinzentado */
     border-radius: 5px;
     font-size: 1em;
     box-sizing: border-box;
     transition: border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+    background-color: var(--light-text-color); /* Fundo dos inputs em branco/creme */
+    color: var(--text-color);
 }
 
 .contact-form textarea {
     resize: vertical;
 }
 
-.contact-form button.primary {
+/* O botão de submit do formulário de contato agora usa .btn-primary */
+.contact-form .btn-primary {
     width: auto;
     padding: 12px 25px;
     font-size: 1.1em;
     cursor: pointer;
+    /* Mantém o degradê do botão primário definido globalmente */
 }
 
 /* Visual Feedback for Form Fields (activated via JavaScript) */
 .contact-form input.focused,
 .contact-form textarea.focused {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 0 3px rgba(140, 77, 46, 0.3); /* Sombra de foco com cor primária */
     outline: none;
 }
 
@@ -628,12 +691,12 @@ nav ul li a.active {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: var(--heading-color); /* Dark background */
-    color: var(--light-text-color); /* Light text */
-    margin-top: 50px; /* Space above the footer */
-    position: relative; /* Ensures the footer is above the slideshow */
+    background: linear-gradient(to right, var(--heading-color), #4A3B31); /* Degradê no footer */
+    color: var(--light-text-color);
+    margin-top: 50px;
+    position: relative;
     z-index: 5;
-    border-top: 1px solid #555; /* Subtle line */
+    border-top: 1px solid #555;
 }
 
 footer p {
@@ -647,18 +710,44 @@ footer p {
 
 /* For tablet screens and smaller (max-width: 992px) */
 @media (max-width: 992px) {
-    header {
-        padding: 15px 30px;
+    /* O header continua 100% da largura, mas o container interno se adapta */
+    .header-container {
+        flex-direction: column; /* Empilha logo e nav */
+        align-items: center; /* Centraliza verticalmente */
+        padding: 0 30px; /* Ajusta o padding para telas menores */
+    }
+
+    .logo {
+        margin-bottom: 15px; /* Espaço entre logo e nav */
+    }
+
+    nav ul {
+        margin-top: 0; /* Garante que não há margem superior extra */
+        width: 100%;
+        justify-content: center; /* Centraliza os itens da navegação */
+    }
+
+    nav ul li {
+        margin: 0 15px 10px 15px; /* Ajusta margens para evitar espaçamento excessivo */
+    }
+
+    /* O main.content-wrapper já tem padding que funciona bem */
+    .content-wrapper {
+        padding-left: var(--padding-section-horizontal); /* Remove o padding extra da barra lateral */
+        padding-right: var(--padding-section-horizontal);
+        padding-top: 60px; /* Ajuste para telas menores */
+        padding-bottom: 60px; /* Ajuste para telas menores */
+        min-height: auto; /* Permite que a altura seja dinâmica */
     }
 
     .hero-section {
-        flex-direction: column; /* Stacks text and image vertically */
-        text-align: center; /* Centers the text */
+        flex-direction: column;
+        text-align: center;
         gap: 30px;
     }
 
     .text-content {
-        max-width: 100%; /* Allows text to occupy full width */
+        max-width: 100%;
     }
 
     .cta-buttons {
@@ -673,10 +762,10 @@ footer p {
         font-size: 1.6em;
     }
 
-    .image-content { /* Profile image adjustment */
+    .image-content {
         width: 350px;
         height: 350px;
-        margin-bottom: 30px; /* Space below the image when stacked */
+        margin-bottom: 30px;
     }
 
     .page-hero {
@@ -688,13 +777,42 @@ footer p {
     .contact-form-section {
         padding: 30px;
     }
+
+    /* Floating Buttons Sidebar responsividade para 992px */
+    .floating-buttons-sidebar {
+        position: relative; /* Em telas menores, remove o fixo e coloca no fluxo normal */
+        top: auto;
+        left: auto;
+        transform: none;
+        flex-direction: row; /* Botões em linha */
+        justify-content: center; /* Centraliza os botões */
+        padding: 15px 20px;
+        border-radius: var(--border-radius);
+        margin: 20px auto; /* Centraliza o contêiner */
+        max-width: var(--max-width-content);
+        flex-wrap: wrap; /* Permite que os botões quebrem a linha */
+        gap: 10px; /* Menor gap */
+        background-color: rgba(140, 77, 46, 1); /* Sem transparência em mobile para melhor visualização */
+        border-radius: var(--border-radius); /* Borda completa */
+    }
+
+    /* Usa a classe .btn base e seus modificadores */
+    .floating-buttons-sidebar .btn {
+        min-width: unset; /* Remove largura mínima em telas menores */
+        flex-grow: 1; /* Permite que os botões se expandam */
+        justify-content: center; /* Centraliza o texto e ícone */
+        font-size: 0.9em;
+    }
 }
 
 /* For mobile screens and smaller (max-width: 768px) */
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        padding: 15px 20px;
+    .header-container {
+        padding: 0 20px; /* Mais ajuste no padding interno */
+    }
+
+    .logo {
+        margin-bottom: 10px;
     }
 
     nav ul {
@@ -734,28 +852,29 @@ footer p {
         gap: 10px;
     }
 
-    .button {
-        width: 100%; /* Buttons occupy 100% width on mobile */
+    /* Botões em telas menores agora usam .btn para largura total */
+    .btn {
+        width: 100%;
         box-sizing: border-box;
     }
 
     .whatsapp-float {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         bottom: 20px;
         right: 20px;
-        font-size: 25px;
+        font-size: 30px;
     }
 
     .whatsapp-float .whatsapp-icon,
     .whatsapp-float .fab.fa-whatsapp {
-        font-size: 25px;
+        font-size: 30px;
     }
 
     .projects-grid,
     .partners-grid,
     .contact-form-section {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
+        grid-template-columns: 1fr;
         padding: 20px;
         gap: 30px;
     }
@@ -769,12 +888,24 @@ footer p {
     .testimonials {
         padding: 30px 20px;
     }
+
+    /* Floating Buttons Sidebar responsividade para 768px */
+    .floating-buttons-sidebar {
+        flex-direction: column; /* Volta a empilhar os botões em telas muito pequenas */
+        padding: 15px;
+    }
+
+    /* Botões na sidebar agora usam .btn para largura total */
+    .floating-buttons-sidebar .btn {
+        width: 100%; /* Ocupa a largura total */
+        font-size: 1em;
+    }
 }
 
 /* For very small screens (max-width: 480px) */
 @media (max-width: 480px) {
     .logo img {
-        height: 30px; /* Adjustment for smaller logo */
+        height: 30px;
     }
 
     .text-content h1 {
@@ -790,9 +921,21 @@ footer p {
         height: 200px;
     }
 
-    .button {
+    /* Ajuste para botões em telas muito pequenas */
+    .btn {
         width: 90%;
         margin-bottom: 10px;
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+    }
+
+    .whatsapp-float .whatsapp-icon,
+    .whatsapp-float .fab.fa-whatsapp {
+        font-size: 25px;
     }
 
     .project-card,
@@ -804,4 +947,42 @@ footer p {
     .partner-logo {
         width: 150px;
     }
+}
+
+/* ================================================================= */
+/* 10. Floating Buttons Sidebar */
+/* ================================================================= */
+
+.floating-buttons-sidebar {
+    position: fixed; /* Fixa a barra lateral na viewport */
+    top: 50%; /* Começa no meio da tela verticalmente */
+    left: 0; /* Alinha à esquerda */
+    transform: translateY(-50%); /* Ajusta para centralizar verticalmente */
+    display: flex;
+    flex-direction: column; /* Botões empilhados verticalmente */
+    gap: 15px; /* Espaçamento entre os botões */
+    padding: 20px 10px; /* Padding interno */
+    background-color: rgba(140, 77, 46, 0.9); /* Cor primária com transparência para fundo */
+    border-radius: 0 var(--border-radius) var(--border-radius) 0; /* Borda arredondada apenas na direita */
+    box-shadow: var(--box-shadow-heavy);
+    z-index: 99; /* Garante que fique acima da maioria dos elementos, mas abaixo do WhatsApp flutuante se houver */
+    transition: transform 0.3s var(--transition-ease), opacity 0.3s var(--transition-ease);
+}
+
+/* Os itens da barra lateral agora usam a classe base .btn e seus modificadores */
+.floating-buttons-sidebar .btn { /* Aplica a classe .btn aqui */
+    min-width: 180px; /* Largura mínima para os botões da sidebar */
+    justify-content: flex-start; /* Alinha o texto e ícone à esquerda */
+}
+
+/* Estilos para os ícones dentro dos botões da sidebar */
+.floating-buttons-sidebar .btn i {
+    margin-right: 10px; /* Espaçamento entre ícone e texto */
+    font-size: 1.2em; /* Tamanho do ícone */
+}
+
+/* Estilos de hover específicos para a sidebar, se desejar um efeito diferente do padrão do .btn */
+.floating-buttons-sidebar .btn-primary:hover,
+.floating-buttons-sidebar .btn-secondary:hover {
+    transform: translateX(5px) translateY(-2px); /* Combina os efeitos */
 }

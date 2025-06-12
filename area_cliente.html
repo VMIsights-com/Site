@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sua Empresa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ================================================================= */
+        /* 0. CSS Variables & Basic Reset */
+        /* ================================================================= */
+        :root {
+            /* Colors (Terrosas com base na paleta fornecida) */
+            --primary-color: #8C4D2E; /* Marrom avermelhado vibrante para botões e destaques */
+            --primary-hover-color: #A0522D; /* Um tom de marrom mais claro para hover */
+            --secondary-color: #F5F5DC; /* Bege claro para fundos secundários e cartões */
+            --dark-bg-color: #A2A183; /* Verde oliva acinzentado para fundos de seção (hero, page-hero) */
+            --text-color: #4A3B31; /* Marrom escuro para texto padrão */
+            --light-text-color: #F8F8F8; /* Branco/creme para texto em fundos escuros */
+            --heading-color: #686230; /* Verde musgo escuro para títulos */
+            --whatsapp-green: #25D366; /* Mantendo o verde original do WhatsApp para reconhecimento */
+            --whatsapp-dark-green: #1DA851; /* Mantendo o verde escuro do WhatsApp */
+
+            /* Spacing & Dimensions */
+            --padding-section: 60px 40px;
+            --max-width-content: 1200px;
+            --header-height: 80px; /* Approximate, for min-height calculation */
+
+            /* Visual Effects */
+            --border-radius: 8px;
+            --box-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --box-shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.2);
+            --hover-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Levemente mais intenso */
+
+            /* Transitions */
+            --transition-speed: 0.3s;
+            --transition-ease: ease-in-out;
+        }
+
+        /* Basic Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(to right bottom, var(--secondary-color), #A2A183); /* Degradê no body */
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Global Link Styles */
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        a:hover {
+            color: var(--primary-hover-color);
+        }
+
+        /* ================================================================= */
+        /* 1. Floating WhatsApp Button */
+        /* ================================================================= */
+        .whatsapp-float {
+            position: fixed;
+            width: 70px;
+            height: 70px;
+            bottom: 40px;
+            right: 40px;
+            background-color: var(--whatsapp-green);
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 35px;
+            box-shadow: var(--box-shadow-medium);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform var(--transition-speed) var(--transition-ease),
+                        background-color var(--transition-speed) var(--transition-ease);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: var(--whatsapp-dark-green);
+        }
+
+        /* If using an SVG image for the icon */
+        .whatsapp-float .whatsapp-icon {
+            width: 40px;
+            height: 40px;
+            /* filter: invert(100%); /* Optional: for black icons on green background */ */
+        }
+        /* If using Font Awesome for the icon (recommended) */
+        .whatsapp-float .fab.fa-whatsapp {
+            color: white;
+            font-size: 35px;
+        }
+
+        /* ================================================================= */
+        /* 2. Header (Navigation Bar) */
+        /* ================================================================= */
+        header {
+            width: 100%;
+            padding: 20px 0;
+            background: linear-gradient(to right, #8C4D2E, #A2A183);
+            box-shadow: var(--box-shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width-content);
+            margin: 0 auto;
+            padding: 0 50px;
+            flex-wrap: wrap;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--light-text-color);
+            font-weight: bold;
+            transition: color var(--transition-speed) var(--transition-ease),
+                        border-bottom var(--transition-speed) var(--transition-ease),
+                        padding-bottom var(--transition-speed) var(--transition-ease);
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav ul li a.active {
+            color: var(--light-text-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 3px;
+        }
+
+        .nav-icon {
+            padding: 8px;
+            border: 2px solid var(--light-text-color);
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) var(--transition-ease);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon:hover {
+            border-color: var(--secondary-color);
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ================================================================= */
+        /* 3. Hero Section (Homepage) */
+        /* ================================================================= */
+        .background-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background-slideshow img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s var(--transition-ease);
+        }
+
+        .background-slideshow img.active {
+            opacity: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 5;
+            padding: 80px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - var(--header-height) - 60px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width-content);
+            gap: 50px;
+        }
+
+        .text-content {
+            flex: 1;
+            max-width: 600px;
+            color: var(--text-color);
+        }
+
+        .text-content h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .text-content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--heading-color);
+        }
+
+        .text-content p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background-color var(--transition-speed) var(--transition-ease),
+                        transform 0.2s var(--transition-ease),
+                        box-shadow 0.2s var(--transition-ease),
+                        border-color var(--transition-speed) var(--transition-ease);
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .button.primary {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-hover-color));
+            color: #fff;
+        }
+
+        .button.primary:hover {
+            background: linear-gradient(to left, var(--primary-color), var(--primary-hover-color));
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .button.secondary:hover {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-hover-color));
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .image-content {
+            flex-shrink: 0;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--box-shadow-heavy);
+            background: linear-gradient(to top right, #A2A183, #686230);
+            transition: box-shadow var(--transition-speed) var(--transition-ease),
+                        transform var(--transition-speed) var(--transition-ease),
+                        border-color var(--transition-speed) var(--transition-ease);
+        }
+
+        .image-content .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-content.highlighted {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transform: scale(1.02);
+            border: 5px solid var(--primary-color);
+        }
+
+        /* ================================================================= */
+        /* 4. Internal Page Styles (Projects, Partners, Contact) */
+        /* ================================================================= */
+        .page-hero {
+            background: linear-gradient(to right, var(--dark-bg-color), #8C4D2E);
+            padding: var(--padding-section);
+            text-align: center;
+            color: var(--light-text-color);
+            margin-bottom: 40px;
+            animation: fadeIn 1s var(--transition-ease) forwards;
+        }
+
+        .page-hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            color: var(--light-text-color);
+        }
+
+        .page-hero p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px;
+            max-width: var(--max-width-content);
+            margin: 0 auto 50px auto;
+        }
+
+        .project-card {
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-light);
+            padding: 25px;
+            transition: transform var(--transition-speed) var(--transition-ease),
+                        box-shadow var(--transition-speed) var(--transition-ease);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-box-shadow);
+        }
+
+        .project-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .project-card p {
+            margin-bottom: 15px;
+        }
+
+        .project-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .project-card ul li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .project-card ul li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .project-card .button.small {
+            padding: 10px 20px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        /* Partners */
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px;
+            max-width: var(--max-width-content);
+            margin: 0 auto 50px auto;
+        }
+
+        .partner-logo {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--dark-bg-color);
+            border-radius: var(--border-radius);
+            background-color: var(--secondary-color);
+            width: 180px;
+            flex-shrink: 0;
+            box-shadow: var(--box-shadow-light);
+            transition: box-shadow var(--transition-speed) var(--transition-ease),
+                        transform var(--transition-speed) var(--transition-ease);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .partner-logo.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
+        }
+
+        .partner-logo img {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: filter var(--transition-speed) var(--transition-ease),
+                        opacity var(--transition-speed) var(--transition-ease);
+        }
+
+        .partner-logo:hover img {
+            filter: grayscale(0%) sepia(20%) hue-rotate(15deg);
+            opacity: 1;
+        }
+
+        .partner-logo:hover {
+            box-shadow: var(--hover-box-shadow);
+            transform: scale(1.03);
+            z-index: 1;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 50px;
+            background: linear-gradient(to top left, var(--secondary-color), #E0D8B0);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .testimonials h2 {
+            color: var(--heading-color);
+            margin-bottom: 40px;
+            font-size: 2em;
+        }
+
+        .testimonial-card {
+            background-color: #fff;
+            border-left: 5px solid var(--primary-color);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 700px;
+            box-shadow: var(--box-shadow-light);
+            text-align: left;
+            font-style: italic;
+            line-height: 1.6;
+            transition: box-shadow var(--transition-speed) var(--transition-ease),
+                        transform var(--transition-speed) var(--transition-ease);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
+        }
+
+        .testimonial-card:hover {
+            box-shadow: var(--hover-box-shadow);
+            transform: translateY(-3px);
+        }
+
+        .testimonial-card p {
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            margin-top: 15px;
+            font-style: normal;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Contact */
+        .contact-form-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            padding: 50px;
+            max-width: 1000px;
+            margin: 0 auto 50px auto;
+        }
+
+        .contact-info,
+        .contact-form-container {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--secondary-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-light);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .contact-info.visible,
+        .contact-form-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
+        }
+
+        .contact-info h2,
+        .contact-form-container h2 {
+            color: var(--heading-color);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+            color: var(--primary-hover-color);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+            transition: transform 0.2s var(--transition-ease), font-size 0.2s var(--transition-ease), color 0.2s var(--transition-ease);
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--dark-bg-color);
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+            background-color: var(--light-text-color);
+            color: var(--text-color);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+        }
+
+        .contact-form button.primary {
+            width: auto;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+
+        .contact-form input.focused,
+        .contact-form textarea.focused {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(140, 77, 46, 0.3);
+            outline: none;
+        }
+
+        .contact-form input.filled,
+        .contact-form textarea.filled {
+            border-color: #888;
+        }
+
+        /* ================================================================= */
+        /* 5. Scroll Reveal (Animations activated via JavaScript) */
+        /* ================================================================= */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s var(--transition-ease), transform 0.6s var(--transition-ease);
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal.slide-left {
+            transform: translateX(-50px);
+        }
+        .scroll-reveal.slide-left.visible {
+            transform: translateX(0);
+        }
+
+        /* ================================================================= */
+        /* 6. Footer */
+        /* ================================================================= */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, var(--heading-color), #4A3B31);
+            color: var(--light-text-color);
+            margin-top: 50px;
+            position: relative;
+            z-index: 5;
+            border-top: 1px solid #555;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        /* ================================================================= */
+        /* 8. Register Page Styles */
+        /* ================================================================= */
+
+        .register-section {
+            padding: var(--padding-section);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - var(--header-height) - 150px);
+            background: linear-gradient(to bottom right, var(--dark-bg-color), var(--secondary-color));
+            transform: translateY(20px); /* Para animação de scroll reveal */
+            opacity: 0; /* Para animação de scroll reveal */
+            transition: transform 0.6s var(--transition-ease), opacity 0.6s var(--transition-ease);
+        }
+        /* Para a animação de scroll reveal, use a classe visível no JavaScript */
+        .register-section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+
+        .register-container {
+            background-color: var(--light-text-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            /* Já animado pelo .register-section.visible */
+        }
+
+        .register-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        .register-form .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .register-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .register-form input[type="text"],
+        .register-form input[type="email"],
+        .register-form input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--dark-bg-color);
+            border-radius: var(--border-radius);
+            font-size: 1.05em;
+            box-sizing: border-box;
+            transition: border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+            background-color: #fff;
+            color: var(--text-color);
+        }
+
+        .register-form input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(140, 77, 46, 0.3);
+            outline: none;
+        }
+
+        .register-form small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        .register-form .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .register-form .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+
+        .register-form .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .register-form .checkbox-group label a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .register-form .checkbox-group label a:hover {
+            color: var(--primary-hover-color);
+        }
+
+        .register-form .button.primary {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .register-form .login-prompt {
+            margin-top: 25px;
+            font-size: 0.95em;
+            color: var(--text-color);
+        }
+
+        .register-form .login-prompt a {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .register-form .login-prompt a:hover {
+            color: var(--primary-hover-color);
+            text-decoration: underline;
+        }
+
+        /* ================================================================= */
+        /* 9. Login Page Styles */
+        /* ================================================================= */
+
+        .login-page-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - var(--header-height) - 100px); /* Ajuste de altura */
+            padding: var(--padding-section);
+            background: linear-gradient(to top left, #A2A183, #8C4D2E); /* Degradê mais escuro para o fundo de login */
+        }
+
+        .login-section {
+            opacity: 0; /* Para animação de scroll reveal */
+            transform: translateY(20px); /* Para animação de scroll reveal */
+            transition: transform 0.6s var(--transition-ease), opacity 0.6s var(--transition-ease);
+        }
+
+        .login-section.visible { /* Classe para scroll reveal */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .login-container {
+            background-color: var(--light-text-color); /* Fundo claro para o cartão de login */
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy); /* Sombra pesada para destacar */
+            max-width: 450px; /* Um pouco mais estreito que o de cadastro, se desejar */
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espaçamento entre os elementos principais */
+        }
+
+        .login-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 2.5em;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espaçamento entre os campos do formulário */
+        }
+
+        .login-form .form-group {
+            margin-bottom: 0; /* Remove a margem padrão para usar o gap do flexbox */
+            text-align: left;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .login-form input[type="email"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--dark-bg-color);
+            border-radius: var(--border-radius);
+            font-size: 1.05em;
+            box-sizing: border-box;
+            transition: border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+            background-color: #fff;
+            color: var(--text-color);
+        }
+
+        .login-form input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(140, 77, 46, 0.3);
+            outline: none;
+        }
+
+        .forgot-password {
+            display: block; /* Garante que o link ocupe sua própria linha */
+            text-align: right;
+            margin-top: -5px; /* Ajusta a posição para mais próximo do campo de senha */
+            font-size: 0.9em;
+            color: var(--text-color);
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-color);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            margin-top: 15px; /* Espaçamento acima do botão de login */
+            /* Botões já são estilizados com .button.primary */
+        }
+
+        .separator-text {
+            margin: 25px 0;
+            font-size: 0.9em;
+            color: var(--text-color);
+            position: relative;
+            text-align: center;
+        }
+
+        .separator-text span {
+            background-color: var(--light-text-color); /* Fundo do container de login */
+            padding: 0 15px;
+            position: relative;
+            z-index: 1; /* Para garantir que o texto fique acima da linha */
+        }
+
+        .separator-text::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ccc; /* Linha sutil */
+            z-index: 0;
+        }
+
+        .social-login-buttons {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap; /* Para quebrar linha em telas menores */
+        }
+
+        .social-button {
+            flex: 1; /* Para que ocupem espaço igualmente */
+            min-width: 150px; /* Largura mínima para botões sociais */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            transition: transform var(--transition-speed) var(--transition-ease),
+                        box-shadow var(--transition-speed) var(--transition-ease);
+            box-shadow: var(--box-shadow-light);
+            color: #fff; /* Cor do texto padrão */
+        }
+
+        .social-button i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .social-button.facebook {
+            background-color: #3b5998; /* Azul do Facebook */
+        }
+
+        .social-button.facebook:hover {
+            background-color: #2d4373;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .social-button.google {
+            background-color: #dd4b39; /* Vermelho do Google */
+        }
+
+        .social-button.google:hover {
+            background-color: #c23321;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .signup-prompt {
+            font-size: 0.95em;
+            color: var(--text-color);
+            margin-top: 15px;
+        }
+
+        .signup-prompt a {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .signup-prompt a:hover {
+            color: var(--primary-hover-color);
+            text-decoration: underline;
+        }
+
+        /* ================================================================= */
+        /* 7. Responsiveness (Media Queries) */
+        /* ================================================================= */
+
+        /* For tablet screens and smaller (max-width: 992px) */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 0 30px;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            nav ul {
+                margin-top: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 15px 10px 15px;
+            }
+
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .text-content {
+                max-width: 100%;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .text-content h1 {
+                font-size: 3.2em;
+            }
+
+            .text-content h2 {
+                font-size: 1.6em;
+            }
+
+            .image-content {
+                width: 350px;
+                height: 350px;
+                margin-bottom: 30px;
+            }
+
+            .page-hero {
+                padding: 60px 30px;
+            }
+
+            .projects-grid,
+            .partners-grid,
+            .contact-form-section {
+                padding: 30px;
+            }
+
+            /* Responsividade da página de cadastro */
+            .register-section {
+                padding: 40px 20px;
+                min-height: auto;
+            }
+
+            .register-container {
+                padding: 30px 20px;
+            }
+
+            .register-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 25px;
+            }
+
+            .register-form input[type="text"],
+            .register-form input[type="email"],
+            .register-form input[type="password"] {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .register-form .button.primary {
+                padding: 12px;
+                font-size: 1.1em;
+            }
+
+            /* Responsividade da página de login */
+            .login-page-main {
+                padding: 30px 20px;
+            }
+
+            .login-container {
+                padding: 30px 20px;
+                gap: 10px;
+            }
+
+            .login-container h2 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+
+            .login-form input {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .login-button {
+                padding: 12px;
+                font-size: 1.1em;
+            }
+
+            .social-login-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .social-button {
+                width: 100%;
+            }
+        }
+
+        /* For mobile screens and smaller (max-width: 768px) */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 15px 10px 15px;
+            }
+
+            .hero-section {
+                padding: 60px 20px;
+                min-height: auto;
+            }
+
+            .text-content h1 {
+                font-size: 2.5em;
+            }
+
+            .text-content h2 {
+                font-size: 1.5em;
+            }
+
+            .text-content p {
+                font-size: 1em;
+            }
+
+            .image-content {
+                width: 280px;
+                height: 280px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 30px;
+            }
+
+            .whatsapp-float .whatsapp-icon,
+            .whatsapp-float .fab.fa-whatsapp {
+                font-size: 30px;
+            }
+
+            .projects-grid,
+            .partners-grid,
+            .contact-form-section {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 30px;
+            }
+
+            .contact-info,
+            .contact-form-container {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .testimonials {
+                padding: 30px 20px;
+            }
+
+            /* Responsividade da página de cadastro */
+            .register-section {
+                padding: 30px 15px;
+            }
+
+            .register-container {
+                padding: 25px 15px;
+            }
+
+            .register-container h2 {
+                font-size: 1.6em;
+            }
+
+            .register-form .checkbox-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .register-form .checkbox-group input[type="checkbox"] {
+                margin-bottom: 10px;
+            }
+        }
+
+        /* For very small screens (max-width: 480px) */
+        @media (max-width: 480px) {
+            .logo img {
+                height: 30px;
+            }
+
+            .text-content h1 {
+                font-size: 2em;
+            }
+
+            .text-content h2 {
+                font-size: 1.2em;
+            }
+
+            .image-content {
+                width: 200px;
+                height: 200px;
+            }
+
+            .button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+
+            .whatsapp-float .whatsapp-icon,
+            .whatsapp-float .fab.fa-whatsapp {
+                font-size: 25px;
+            }
+
+            .project-card,
+            .partner-logo,
+            .testimonial-card {
+                padding: 20px;
+            }
+
+            .partner-logo {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="caminho/para/seu/logo.png" alt="Logo da Empresa">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projetos.html">Projetos</a></li>
+                    <li><a href="parceiros.html">Parceiros</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="#" class="active">Login</a></li> <li><a href="#" aria-label="Instagram"><i class="fab fa-instagram nav-icon"></i></a></li>
+                    <li><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in nav-icon"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="login-page-main"> <section class="login-section scroll-reveal">
+            <div class="login-container">
+                <h2>Login</h2>
+                <form class="login-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" required placeholder="seu.email@exemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" required placeholder="Sua senha">
+                    </div>
+                    <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+                    <button type="submit" class="button primary login-button">LOGIN</button>
+                </form>
+
+                <p class="separator-text"><span>Ou entre com</span></p>
+
+                <div class="social-login-buttons">
+                    <a href="#" class="social-button facebook" aria-label="Entrar com Facebook">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                    <a href="#" class="social-button google" aria-label="Entrar com Google">
+                        <i class="fab fa-google"></i> Google
+                    </a>
+                </div>
+                
+                <p class="signup-prompt">Não tem uma conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sua Empresa. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Adiciona a lógica do scroll reveal para a página de login
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        // Opcional: remover a classe 'visible' quando o elemento sai da visualização
+                        // entry.target.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.1 }); // 10% do elemento visível
+
+            scrollRevealElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
